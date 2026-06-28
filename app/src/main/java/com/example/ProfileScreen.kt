@@ -83,6 +83,7 @@ fun ProfileScreen(
     onToggleBottomBar: (Boolean) -> Unit = {}
 ) {
     val context = LocalContext.current
+    val uriHandler = androidx.compose.ui.platform.LocalUriHandler.current
     val sharedPrefs = remember { context.getSharedPreferences("profile_prefs", Context.MODE_PRIVATE) }
     val scope = rememberCoroutineScope()
     
@@ -595,9 +596,86 @@ fun ProfileScreen(
                             onClick = onNavigateToSettings
                         )
 
-                        // If logged in, show logout and delete account
-                        if (currentUser != null) {
-                            ProfileDivider()
+                    }
+                }
+
+                Spacer(modifier = Modifier.height(10.dp))
+
+                // Support card
+                Text(
+                    text = if (GlobalLanguage.isEnglish) "Support" else "সাপোর্ট",
+                    fontWeight = FontWeight.Bold,
+                    fontSize = 15.sp,
+                    color = TextDark,
+                    modifier = Modifier.padding(horizontal = 20.dp, vertical = 4.dp)
+                )
+
+                Card(
+                    colors = CardDefaults.cardColors(containerColor = Color.White),
+                    shape = RoundedCornerShape(16.dp),
+                    border = BorderStroke(1.dp, Color(0xFFE5E7EB)),
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(horizontal = 16.dp, vertical = 6.dp)
+                ) {
+                    Column(modifier = Modifier.padding(vertical = 4.dp)) {
+                        ProfileOptionRow(
+                            title = "Support WhatsApp",
+                            icon = Icons.Filled.Chat,
+                            iconColor = Color(0xFF25D366),
+                            onClick = { uriHandler.openUri("https://wa.me/") }
+                        )
+                        ProfileDivider()
+                        ProfileOptionRow(
+                            title = "Support Telegram",
+                            icon = Icons.Filled.Send,
+                            iconColor = Color(0xFF0088CC),
+                            onClick = { uriHandler.openUri("https://t.me/") }
+                        )
+                        ProfileDivider()
+                        ProfileOptionRow(
+                            title = "Facebook Group",
+                            icon = Icons.Filled.Groups,
+                            iconColor = Color(0xFF1877F2),
+                            onClick = { uriHandler.openUri("https://facebook.com/groups/") }
+                        )
+                        ProfileDivider()
+                        ProfileOptionRow(
+                            title = "WhatsApp Group",
+                            icon = Icons.Filled.Forum,
+                            iconColor = Color(0xFF25D366),
+                            onClick = { uriHandler.openUri("https://chat.whatsapp.com/") }
+                        )
+                        ProfileDivider()
+                        ProfileOptionRow(
+                            title = "Telegram Group",
+                            icon = Icons.Filled.Group,
+                            iconColor = Color(0xFF0088CC),
+                            onClick = { uriHandler.openUri("https://t.me/") }
+                        )
+                        ProfileDivider()
+                        ProfileOptionRow(
+                            title = "Telegram Channel",
+                            icon = Icons.Filled.Campaign,
+                            iconColor = Color(0xFF0088CC),
+                            onClick = { uriHandler.openUri("https://t.me/") }
+                        )
+                    }
+                }
+
+                // If logged in, show logout and delete account in separate stacked cards
+                if (currentUser != null) {
+                    Spacer(modifier = Modifier.height(10.dp))
+                    
+                    Card(
+                        colors = CardDefaults.cardColors(containerColor = Color.White),
+                        shape = RoundedCornerShape(16.dp),
+                        border = BorderStroke(1.dp, Color(0xFFE5E7EB)),
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(horizontal = 16.dp, vertical = 6.dp)
+                    ) {
+                        Column(modifier = Modifier.padding(vertical = 4.dp)) {
                             ProfileOptionRow(
                                 title = if (GlobalLanguage.isEnglish) "Sign Out" else "লগআউট করুন",
                                 icon = Icons.Filled.Logout,
@@ -610,8 +688,20 @@ fun ProfileScreen(
                                     }
                                 }
                             )
+                        }
+                    }
 
-                            ProfileDivider()
+                    Spacer(modifier = Modifier.height(10.dp))
+                    
+                    Card(
+                        colors = CardDefaults.cardColors(containerColor = Color.White),
+                        shape = RoundedCornerShape(16.dp),
+                        border = BorderStroke(1.dp, Color(0xFFE5E7EB)),
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(horizontal = 16.dp, vertical = 6.dp)
+                    ) {
+                        Column(modifier = Modifier.padding(vertical = 4.dp)) {
                             ProfileOptionRow(
                                 title = if (GlobalLanguage.isEnglish) "Delete Account" else "অ্যাকাউন্ট মুছে ফেলুন",
                                 icon = Icons.Filled.Delete,
